@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head><title>Borrowed Books</title></head>
+<body>
+    <h2>Borrowed Books</h2>
+    {% if messages %}
+        <ul style="color: green;">
+            {% for message in messages %}
+                <li>{{ message }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+
+    {% if users %}
+        <table border="1">
+            <tr>
+                <th>User ID</th>
+                <th>Name</th>
+                <th>Type</th>
+                <th>Books</th>
+            </tr>
+            {% for user in users %}
+                <tr>
+                    <td>{{ user.user_id }}</td>
+                    <td>{{ user.name }} {{ user.surname }}</td>
+                    <td>{% if user.age %}Pupil{% else %}Student{% endif %}</td>
+                    <td>
+                        <ul>
+                            {% for book in user.borrowed_books.all %}
+                                <li>
+                                    {{ book.title }}
+                                    <form action="{% url 'return_one' %}" method="post" style="display:inline;">
+                                        {% csrf_token %}
+                                        <input type="hidden" name="user_id" value="{{ user.user_id }}">
+                                        <input type="hidden" name="book_id" value="{{ book.id }}">
+                                        <button type="submit">Return</button>
+                                    </form>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </td>
+                </tr>
+            {% endfor %}
+        </table>
+    {% else %}
+        <p>No borrowed books found.</p>
+    {% endif %}
+    <a href="{% url 'home' %}">Home</a>
+</body>
+</html>

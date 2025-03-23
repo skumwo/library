@@ -1,0 +1,20 @@
+<h2>Borrow/Return History</h2>
+<table border="1">
+    <tr>
+        <th>Time</th>
+        <th>User</th>
+        <th>User ID</th>
+        <th>Book</th>
+        <th>Action</th>
+    </tr>
+    {% for r in records %}
+        <tr>
+            <td>{{ r.timestamp }}</td>
+            <td>{{ r.user_name }}</td>
+            <td>{{ r.user_id }}</td>
+            <td>{{ r.book_title }}</td>
+            <td>{{ r.get_action_display }}</td>
+        </tr>
+    {% endfor %}
+</table>
+<a href="{% url 'home' %}">Back to Home</a>

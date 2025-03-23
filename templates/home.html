@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<head><title>Library Home</title></head>
+<body>
+    <h1>Library System</h1>
+    <a href="{% url 'register_user' %}">Register New User</a><br>
+    <a href="{% url 'borrowed_books' %}">View Borrowed Books</a><br>
+    <a href="{% url 'user_list' %}">View All Users</a><br>
+    <a href="{% url 'book_list' %}">View All Books</a><br>
+    <a href="{% url 'add_book' %}">Add New Book</a><br>
+    <a href="{% url 'assign_book' %}">Assign Book to User</a><br>
+    <a href="{% url 'return_book' %}">Return Book from User</a><br>
+    <a href="{% url 'history' %}">View Borrow/Return History</a><br>
+
+</body>
+</html>

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head><title>Assign Book</title></head>
+<body>
+    <h2>Assign Book to User</h2>
+
+    {% if error %}
+        <p style="color: red;">{{ error }}</p>
+    {% endif %}
+
+    <form method="post">
+        {% csrf_token %}
+        <label>Select User:</label>
+        <select name="user_id">
+            {% for u in students %}
+                <option value="{{ u.user_id }}">{{ u.user_id }} - {{ u.name }} {{ u.surname }} (Student)</option>
+            {% endfor %}
+            {% for u in pupils %}
+                <option value="{{ u.user_id }}">{{ u.user_id }} - {{ u.name }} {{ u.surname }} (Pupil)</option>
+            {% endfor %}
+        </select><br><br>
+
+        <label>Select Book:</label>
+        <select name="book_id">
+            {% for book in books %}
+                {% with student_count=book.student_set.count pupil_count=book.pupil_set.count %}
+                    {% with available=book.quantity|add:"-"|add:student_count|add:"-"|add:pupil_count %}
+                        <option value="{{ book.id }}">
+                            {{ book.title }} ({{ book.label }}) — Available: {{ available }}
+                        </option>
+                    {% endwith %}
+                {% endwith %}
+            {% endfor %}
+        </select>
+
+
+        <br><br>
+
+        <button type="submit">Assign</button>
+    </form>
+
+    <a href="{% url 'home' %}">Home</a>
+</body>
+</html>

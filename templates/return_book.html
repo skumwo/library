@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head><title>Return Book</title></head>
+<body>
+    <h2>Return Book</h2>
+
+    <form method="post">
+        {% csrf_token %}
+        <label>Select User:</label>
+        <select name="user_id" onchange="this.form.submit()">
+            <option value="">-- Choose user --</option>
+            {% for u in users %}
+                <option value="{{ u.user_id }}" {% if selected_user and u.user_id == selected_user.user_id %}selected{% endif %}>
+                    {{ u.user_id }} - {{ u.name }} {{ u.surname }}
+                </option>
+            {% endfor %}
+        </select>
+    </form>
+
+    {% if selected_user and books %}
+        <form method="post">
+            {% csrf_token %}
+            <input type="hidden" name="user_id" value="{{ selected_user.user_id }}">
+            <label>Select Book to Return:</label>
+            <select name="book_id">
+                {% for book in books %}
+                    <option value="{{ book.id }}">{{ book.title }}</option>
+                {% endfor %}
+            </select>
+            <button type="submit">Return Book</button>
+        </form>
+    {% elif selected_user %}
+        <p>No books to return.</p>
+    {% endif %}
+
+    <a href="{% url 'home' %}">Home</a>
+</body>
+</html>

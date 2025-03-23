@@ -1,0 +1,7 @@
+<h2>Are you sure you want to delete this {{ type }}?</h2>
+<p>{{ object }}</p>
+<form method="post">
+    {% csrf_token %}
+    <button type="submit">Yes, delete</button>
+    <a href="{% if type == 'book' %}{% url 'book_list' %}{% else %}{% url 'user_list' %}{% endif %}">Cancel</a>
+</form>
