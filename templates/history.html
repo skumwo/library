@@ -1,9 +1,12 @@
-<h2>Borrow/Return History</h2>
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>History</h2>
 <table border="1">
     <tr>
-        <th>Time</th>
+        <th>Date/Time</th>
         <th>User</th>
-        <th>User ID</th>
+        <th>ID</th>
         <th>Book</th>
         <th>Action</th>
     </tr>
@@ -17,4 +20,5 @@
         </tr>
     {% endfor %}
 </table>
-<a href="{% url 'home' %}">Back to Home</a>
+<a href="{% url 'home' %}">Home</a>
+{% endblock %}

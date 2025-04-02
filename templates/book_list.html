@@ -1,11 +1,10 @@
-<!DOCTYPE html>
-<html>
-<head><title>Book List</title></head>
-<body>
+{% extends 'base.html' %}
+
+{% block content %}
     <h2>All Books</h2>
     <table border="1">
         <tr>
-            <th>Title</th>
+            <th>Name</th>
             <th>Author</th>
             <th>Year</th>
             <th>ISBN</th>
@@ -28,7 +27,6 @@
         </tr>
         {% endfor %}
     </table>
-    <a href="{% url 'add_book' %}">Add Book</a> |
+    <a href="{% url 'add_book' %}">Add book</a> |
     <a href="{% url 'home' %}">Home</a>
-</body>
-</html>
+{% endblock %}

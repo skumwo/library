@@ -1,8 +1,7 @@
-<!DOCTYPE html>
-<html>
-<head><title>Users</title></head>
-<body>
-    <h2>All Registered Users</h2>
+{% extends 'base.html' %}
+
+{% block content %}
+    <h2>All Users</h2>
     <table border="1">
         <tr>
             <th>User ID</th>
@@ -16,7 +15,7 @@
             <td>{{ user.name }} {{ user.surname }}</td>
             <td>{{ user.group }}</td>
             <td>
-                {% if user.age %}Pupil{% else %}Student{% endif %}
+                {% if user.age %}Pupils{% else %}Students{% endif %}
             </td>
             <td>
                 <a href="{% url 'edit_user' user.user_id %}">Edit</a> |
@@ -26,7 +25,6 @@
         </tr>
         {% endfor %}
     </table>
-    <a href="{% url 'register_user' %}">Register New User</a> |
-    <a href="{% url 'home' %}">Back to Home</a>
-</body>
-</html>
+    <a href="{% url 'register_user' %}">Add New User</a> |
+    <a href="{% url 'home' %}">Home</a>
+{% endblock %}

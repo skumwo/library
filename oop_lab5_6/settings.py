@@ -69,6 +69,12 @@ TEMPLATES = [
     },
 ]
 
+import os
+
+STATIC_URL = '/static/'
+STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static'),]
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
 WSGI_APPLICATION = 'oop_lab5_6.wsgi.application'
 
 

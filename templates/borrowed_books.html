@@ -1,7 +1,6 @@
-<!DOCTYPE html>
-<html>
-<head><title>Borrowed Books</title></head>
-<body>
+{% extends 'base.html' %}
+
+{% block content %}
     <h2>Borrowed Books</h2>
     {% if messages %}
         <ul style="color: green;">
@@ -17,7 +16,7 @@
                 <th>User ID</th>
                 <th>Name</th>
                 <th>Type</th>
-                <th>Books</th>
+                <th>Book</th>
             </tr>
             {% for user in users %}
                 <tr>
@@ -46,5 +45,4 @@
         <p>No borrowed books found.</p>
     {% endif %}
     <a href="{% url 'home' %}">Home</a>
-</body>
-</html>
+{% endblock %}

@@ -18,6 +18,8 @@ urlpatterns = [
     path('users/edit/<int:user_id>/', views.edit_user, name='edit_user'),
     path('users/delete/<int:user_id>/', views.delete_user, name='delete_user'),
     path('history/', views.history, name='history'),
+    path('search_user/', views.search_user, name='search_user'),
+    path('menu/', views.main_menu, name='main_menu'),
 
 ]
 

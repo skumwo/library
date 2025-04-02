@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h2>Search Users</h2>
+<form method="get" action="{% url 'search_user' %}">
+    <input type="text" name="q" value="{{ query }}" placeholder="Enter name to search...">
+    <button type="submit">Search</button>
+</form>
+
+<h3>Students and pupils:</h3>
+{% if students %}
+    <ul>
+        {% for student in students %}
+            <li>{{ student.name }} {{ student.surname }} (Student)</li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>No students found.</p>
+{% endif %}
+{% if pupils %}
+    <ul>
+        {% for pupil in pupils %}
+            <li>{{ pupil.name }} {{ pupil.surname }} (Pupil)</li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>No pupils found.</p>
+{% endif %}
+
+<a href="{% url 'home' %}">Home</a>
+
+{% endblock %}

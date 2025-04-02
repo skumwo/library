@@ -8,6 +8,16 @@ import random
 from django.views.decorators.http import require_POST
 from django.contrib import messages
 
+from .utils import (
+    export_books_to_txt,
+    import_books_from_txt,
+    export_users_to_txt,
+    import_users_from_txt,
+    serialize_library,
+    deserialize_library,
+    drop_all_data,
+)
+
 def edit_user(request, user_id):
     user = Student.objects.filter(user_id=user_id).first() or Pupil.objects.filter(user_id=user_id).first()
     if not user:
@@ -102,8 +112,9 @@ def register_user(request):
             surname = form.cleaned_data['surname']
             group = form.cleaned_data['group']
             age = form.cleaned_data['age']
+            user_type = form.cleaned_data['user_type']
 
-            if age < 18:
+            if user_type == 'pupil':
                 user_id = generate_user_id(1)
                 Pupil.objects.create(user_id=user_id, name=name, surname=surname, group=group, age=age)
             else:
@@ -160,6 +171,11 @@ def assign_book(request):
             'books': books,
             'error': error
         })
+
+    books = Book.objects.all()
+    for b in books:
+        borrowed_count = b.student_set.count() + b.pupil_set.count()
+        b.available = b.quantity - borrowed_count
 
     return render(request, 'assign_book.html', {
         'students': students,
@@ -238,3 +254,51 @@ def borrowed_books_list(request):
 def history(request):
     records = BorrowHistory.objects.all().order_by('-timestamp')
     return render(request, 'history.html', {'records': records})
+
+from django.db.models import Q
+
+def search_user(request):
+    query = request.GET.get('q')
+    if query:
+        students = Student.objects.filter(Q(name__icontains=query) | Q(surname__icontains=query))
+        pupils = Pupil.objects.filter(Q(name__icontains=query) | Q(surname__icontains=query))
+    else:
+        students = Student.objects.all()
+        pupils = Pupil.objects.all()
+
+    return render(request, 'search_user.html', {
+        'students': students,
+        'pupils': pupils,
+        'query': query
+    })
+
+def main_menu(request):
+    if request.method == "POST":
+        choice = request.POST.get("choice")
+        if choice == "1":
+            result = export_books_to_txt()
+            message = "Книги экспортированы." if result else "Ошибка экспорта."
+        elif choice == "2":
+            result = import_books_from_txt()
+            message = "Книги импортированы." if result else "Ошибка импорта."
+        elif choice == "6":
+            result = export_users_to_txt()
+            message = "Пользователи экспортированы." if result else "Ошибка экспорта."
+        elif choice == "7":
+            result = import_users_from_txt()
+            message = "Пользователи импортированы." if result else "Ошибка импорта."
+        elif choice == "3":
+            result = serialize_library()
+            message = "Библиотека сохранена." if result else "Ошибка сохранения."
+        elif choice == "4":
+            result = deserialize_library()
+            message = "Библиотека загружена." if result else "Ошибка загрузки."
+        elif choice == "5":
+            result = drop_all_data()
+            message = "Данные удалены." if result else "Ошибка удаления."
+        else:
+            message = "Неверный выбор."
+
+        return render(request, "menu.html", {"message": message})
+
+    return render(request, "menu.html")

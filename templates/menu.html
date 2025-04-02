@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>Меню библиотеки</h1>
+    {% if message %}
+        <p>{{ message }}</p>
+    {% endif %}
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit" name="choice" value="1">Экспорт книг в .txt</button><br>
+        <button type="submit" name="choice" value="2">Импорт книг из .txt</button><br>
+        <button type="submit" name="choice" value="6">Экспорт пользователей в .txt</button><br>
+        <button type="submit" name="choice" value="7">Импорт пользователей из .txt</button><br>
+        <button type="submit" name="choice" value="3">Сохранить библиотеку (сериализация)</button><br>
+        <button type="submit" name="choice" value="4">Загрузить библиотеку (десериализация)</button><br>
+        <button type="submit" name="choice" value="5">Удалить все данные</button><br>
+    </form>
+    <a href="{% url 'home' %}">Home</a>
+{% endblock %}
